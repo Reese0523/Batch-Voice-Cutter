@@ -23,13 +23,11 @@ install:
       choco install ffmpeg -y
 
 build_script:
-  - ps: >-
-      # 安裝 PyInstaller
-      pip install pyinstaller
-  - ps: >-
-      # 清除舊的 build/artifacts
-      if (Test-Path build) { Remove-Item build -Recurse -Force }
-      if (Test-Path dist)  { Remove-Item dist  -Recurse -Force }
+  - ps: pip install pyinstaller
+  - ps: if (Test-Path build) { Remove-Item build -Recurse -Force }
+  - ps: if (Test-Path dist)  { Remove-Item dist  -Recurse -Force }
+  - ps: pyinstaller --onefile --noconsole batch_voice_cutter.py
+  - ps: appveyor PushArtifact ".\dist\batch_voice_cutter.exe" -FileName "batch_voice_cutter.exe"
 
   - ps: >-
       # 使用 PyInstaller 打包
