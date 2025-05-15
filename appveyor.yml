@@ -1,0 +1,47 @@
+# appveyor.yml
+environment:
+  matrix:
+    - PYTHON: "3.10"
+    - PYTHON: "3.11"
+
+image: Visual Studio 2022
+
+install:
+  - ps: >-
+      # 安裝指定版本 Python
+      choco install python --version=%PYTHON% -y
+  - ps: >-
+      # 確保 pip 最新
+      RefreshEnv
+      python -m pip install --upgrade pip
+  - ps: >-
+      # 安裝必要套件
+      pip install moviepy openai-whisper
+
+  - ps: >-
+      # 安裝 ffmpeg（MoviePy 需要）
+      choco install ffmpeg -y
+
+build_script:
+  - ps: >-
+      # 安裝 PyInstaller
+      pip install pyinstaller
+  - ps: >-
+      # 清除舊的 build/artifacts
+      if (Test-Path build) { Remove-Item build -Recurse -Force }
+      if (Test-Path dist)  { Remove-Item dist  -Recurse -Force }
+
+  - ps: >-
+      # 使用 PyInstaller 打包
+      pyinstaller --onefile --noconsole batch_voice_cutter.py
+
+artifacts:
+  - path: dist\batch_voice_cutter.exe
+    name: voice_cutter_exe
+    type: file
+
+notifications:
+  - provider: Slack
+    on_success: change
+    on_failure: always
+    # token, channel 等可依需求設定
