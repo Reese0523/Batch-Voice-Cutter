@@ -36,6 +36,6 @@ build_script:
       pyinstaller --onefile --noconsole batch_voice_cutter.py
 
 artifacts:
-  - path: dist\*.exe
+  - path: dist/*.exe
     name: voice_cutter_exe
     type: file
