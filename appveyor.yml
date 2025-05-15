@@ -42,6 +42,8 @@ artifacts:
 
 notifications:
   - provider: Slack
-    on_success: change
-    on_failure: always
-    # token, channel 等可依需求設定
+    # 必須改成你自己的 webhook URL
+    incoming_webhook: https://hooks.slack.com/services/XXXXX/XXXXX/XXXXXXXXXX
+    # 正確的觸發欄位名稱
+    on_build_success: change
+    on_build_failure: always
