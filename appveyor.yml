@@ -39,11 +39,3 @@ artifacts:
   - path: dist\batch_voice_cutter.exe
     name: voice_cutter_exe
     type: file
-
-notifications:
-  - provider: Slack
-    # 必須改成你自己的 webhook URL
-    incoming_webhook: https://hooks.slack.com/services/XXXXX/XXXXX/XXXXXXXXXX
-    # 正確的觸發欄位名稱
-    on_build_success: change
-    on_build_failure: always
